@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amina Yusuf — Creative Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #12131A;
+    --surface: #1B1D27;
+    --surface-2: #232634;
+    --text: #F3F1EC;
+    --muted: #9A98A8;
+    --accent: #FF7A45;
+    --accent-2: #5EE6D0;
+    --line: rgba(243,241,236,0.08);
+    --ease: cubic-bezier(.16,1,.3,1);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    overflow-x:hidden;
+    line-height:1.6;
+  }
+  a{ color:inherit; text-decoration:none; }
+
+  ::selection{ background:var(--accent); color:var(--bg); }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+  }
+
+  /* ---------- Background ambient glow ---------- */
+  .glow{
+    position:fixed;
+    top:-20%; left:50%;
+    width:80vw; height:80vw;
+    max-width:900px; max-height:900px;
+    background:radial-gradient(circle, rgba(255,122,69,0.18), transparent 60%);
+    transform:translateX(-50%);
+    pointer-events:none;
+    z-index:0;
+    animation:drift 18s ease-in-out infinite alternate;
+  }
+  @keyframes drift{
+    0%{ transform:translate(-60%,-10%) scale(1); }
+    100%{ transform:translate(-40%,5%) scale(1.15); }
+  }
+
+  /* ---------- Nav ---------- */
+  nav{
+    position:fixed; top:0; left:0; right:0;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:28px 6vw;
+    z-index:100;
+    mix-blend-mode:difference;
+  }
+  .logo{
+    font-family:'Fraunces', serif;
+    font-weight:600; font-size:1.3rem;
+    letter-spacing:0.02em;
+  }
+  .nav-links{ display:flex; gap:36px; font-size:0.92rem; }
+  .nav-links a{
+    position:relative;
+    color:var(--muted);
+    transition:color .3s var(--ease);
+  }
+  .nav-links a::after{
+    content:'';
+    position:absolute; left:0; bottom:-6px;
+    width:0; height:1px;
+    background:var(--accent);
+    transition:width .35s var(--ease);
+  }
+  .nav-links a:hover{ color:var(--text); }
+  .nav-links a:hover::after{ width:100%; }
+  @media (max-width:720px){ .nav-links{ display:none; } }
+
+  /* ---------- Hero ---------- */
+  header{
+    min-height:100vh;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:0 6vw;
+    position:relative; z-index:1;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    color:var(--accent-2);
+    font-size:0.85rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    margin-bottom:28px;
+    opacity:0;
+    animation:rise .8s var(--ease) forwards;
+    animation-delay:.1s;
+  }
+  h1.hero-title{
+    font-family:'Fraunces', serif;
+    font-weight:300;
+    font-size:clamp(3rem, 11vw, 8.5rem);
+    line-height:0.98;
+    letter-spacing:-0.02em;
+    overflow:hidden;
+  }
+  h1.hero-title .line{ display:block; overflow:hidden; }
+  h1.hero-title span{
+    display:inline-block;
+    transform:translateY(110%);
+    animation:rise .9s var(--ease) forwards;
+  }
+  h1.hero-title .line:nth-child(1) span{ animation-delay:.15s; }
+  h1.hero-title .line:nth-child(2) span{ animation-delay:.28s; font-style:italic; font-weight:500; color:var(--accent); }
+
+  @keyframes rise{
+    to{ transform:translateY(0); opacity:1; }
+  }
+
+  .hero-sub{
+    max-width:520px;
+    margin-top:36px;
+    color:var(--muted);
+    font-size:1.05rem;
+    opacity:0;
+    animation:rise .8s var(--ease) forwards;
+    animation-delay:.5s;
+  }
+
+  .scroll-cue{
+    position:absolute; bottom:48px; left:6vw;
+    display:flex; align-items:center; gap:14px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.78rem; color:var(--muted);
+    letter-spacing:0.12em;
+    opacity:0;
+    animation:rise .8s var(--ease) forwards;
+    animation-delay:.8s;
+  }
+  .scroll-cue .line-anim{
+    width:1px; height:46px; background:var(--line);
+    position:relative; overflow:hidden;
+  }
+  .scroll-cue .line-anim::after{
+    content:'';
+    position:absolute; top:-100%; left:0; right:0; height:100%;
+    background:var(--accent-2);
+    animation:traceline 2.4s ease-in-out infinite;
+  }
+  @keyframes traceline{
+    0%{ top:-100%; }
+    50%{ top:0%; }
+    100%{ top:100%; }
+  }
+
+  /* ---------- Marquee ---------- */
+  .marquee-wrap{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:22px 0;
+    position:relative; z-index:1;
+    background:var(--surface);
+  }
+  .marquee{
+    display:flex; gap:60px;
+    white-space:nowrap;
+    width:max-content;
+    animation:scroll-left 32s linear infinite;
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.95rem;
+    color:var(--muted);
+    letter-spacing:0.08em;
+  }
+  .marquee span{ display:flex; align-items:center; gap:18px; }
+  .marquee span::after{ content:'◆'; color:var(--accent); font-size:0.6rem; }
+  @keyframes scroll-left{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-50%); }
+  }
+
+  /* ---------- Sections generic ---------- */
+  section{
+    padding:140px 6vw;
+    position:relative; z-index:1;
+  }
+  .section-head{
+    display:flex; align-items:baseline; gap:24px;
+    margin-bottom:64px;
+  }
+  .section-num{
+    font-family:'JetBrains Mono', monospace;
+    color:var(--accent);
+    font-size:0.9rem;
+  }
+  .section-title{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(2rem, 5vw, 3.5rem);
+  }
+  .section-title em{ font-style:italic; color:var(--accent-2); }
+
+  /* reveal on scroll */
+  .reveal{
+    opacity:0;
+    transform:translateY(40px);
+    transition:opacity .9s var(--ease), transform .9s var(--ease);
+  }
+  .reveal.visible{ opacity:1; transform:translateY(0); }
+
+  /* ---------- About ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap:80px;
+    align-items:start;
+  }
+  .about-text p{ color:var(--muted); margin-bottom:20px; font-size:1.05rem; max-width:46ch; }
+  .about-text strong{ color:var(--text); font-weight:600; }
+  .stat-grid{ display:grid; grid-template-columns:1fr 1fr; gap:32px; }
+  .stat{
+    border-left:1px solid var(--line);
+    padding-left:20px;
+  }
+  .stat .num{
+    font-family:'Fraunces', serif;
+    font-size:2.6rem;
+    color:var(--text);
+    display:block;
+    font-weight:300;
+  }
+  .stat .num em{ color:var(--accent); font-style:normal; }
+  .stat .label{ color:var(--muted); font-size:0.85rem; letter-spacing:0.04em; }
+  @media (max-width:860px){ .about-grid{ grid-template-columns:1fr; gap:48px; } }
+
+  /* ---------- Projects ---------- */
+  .project{
+    display:grid;
+    grid-template-columns: 90px 1.4fr 1fr 110px;
+    align-items:center;
+    gap:32px;
+    padding:38px 0;
+    border-bottom:1px solid var(--line);
+    cursor:pointer;
+    transition:padding-left .4s var(--ease), background .4s var(--ease);
+  }
+  .project:first-of-type{ border-top:1px solid var(--line); }
+  .project:hover{
+    padding-left:24px;
+    background:rgba(255,122,69,0.04);
+  }
+  .project-num{
+    font-family:'JetBrains Mono', monospace;
+    color:var(--muted); font-size:0.85rem;
+  }
+  .project-name{
+    font-family:'Fraunces', serif;
+    font-size:clamp(1.4rem, 3vw, 2.2rem);
+    font-weight:400;
+    transition:color .3s var(--ease), transform .4s var(--ease);
+  }
+  .project:hover .project-name{ color:var(--accent); transform:translateX(6px); }
+  .project-tags{ color:var(--muted); font-size:0.9rem; font-family:'JetBrains Mono', monospace; }
+  .project-arrow{
+    justify-self:end;
+    width:42px; height:42px;
+    border:1px solid var(--line);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    transition:transform .4s var(--ease), border-color .4s var(--ease), background .4s var(--ease);
+  }
+  .project:hover .project-arrow{
+    transform:rotate(45deg) scale(1.1);
+    border-color:var(--accent);
+    background:var(--accent);
+    color:var(--bg);
+  }
+  @media (max-width:760px){
+    .project{ grid-template-columns: 1fr; gap:10px; padding:28px 0; }
+    .project-arrow{ display:none; }
+  }
+
+  /* ---------- Process / Skills ---------- */
+  .skills-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .skill-card{
+    background:var(--surface);
+    padding:36px 28px;
+    transition:background .4s var(--ease), transform .4s var(--ease);
+  }
+  .skill-card:hover{
+    background:var(--surface-2);
+    transform:translateY(-6px);
+  }
+  .skill-card .icon{
+    font-family:'Fraunces', serif;
+    font-size:2.2rem;
+    color:var(--accent-2);
+    display:block;
+    margin-bottom:18px;
+    transition:transform .5s var(--ease);
+  }
+  .skill-card:hover .icon{ transform:rotate(-8deg) scale(1.15); }
+  .skill-card h3{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:1.25rem;
+    margin-bottom:10px;
+  }
+  .skill-card p{ color:var(--muted); font-size:0.92rem; }
+
+  /* ---------- Contact ---------- */
+  .contact{
+    text-align:center;
+    padding-top:100px;
+  }
+  .contact h2{
+    font-family:'Fraunces', serif;
+    font-weight:300;
+    font-size:clamp(2.5rem, 9vw, 6.5rem);
+    line-height:1.05;
+  }
+  .contact h2 a{
+    border-bottom: 2px solid transparent;
+    transition:color .4s var(--ease), border-color .4s var(--ease);
+  }
+  .contact h2 a:hover{
+    color:var(--accent);
+    border-color:var(--accent);
+  }
+  .contact-sub{
+    color:var(--muted);
+    margin-top:24px;
+    font-size:1.05rem;
+  }
+  .socials{
+    display:flex; gap:28px; justify-content:center;
+    margin-top:56px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.85rem;
+  }
+  .socials a{
+    color:var(--muted);
+    position:relative;
+    padding-bottom:4px;
+    transition:color .3s var(--ease);
+  }
+  .socials a::after{
+    content:'';
+    position:absolute; left:0; bottom:0;
+    width:100%; height:1px;
+    background:var(--accent-2);
+    transform:scaleX(0); transform-origin:left;
+    transition:transform .35s var(--ease);
+  }
+  .socials a:hover{ color:var(--text); }
+  .socials a:hover::after{ transform:scaleX(1); }
+
+  footer{
+    text-align:center;
+    padding:48px 6vw 60px;
+    color:var(--muted);
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.78rem;
+    letter-spacing:0.08em;
+    position:relative; z-index:1;
+  }
+
+  /* Focus visibility */
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--accent-2);
+    outline-offset:4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="glow" aria-hidden="true"></div>
+
+<nav>
+  <div class="logo">A.Y.</div>
+  <div class="nav-links">
+    <a href="#about">Ku Saabsan</a>
+    <a href="#work">Shaqooyinka</a>
+    <a href="#skills">Xirfadaha</a>
+    <a href="#contact">Xiriir</a>
+  </div>
+</nav>
+
+<header>
+  <p class="eyebrow">Creative Developer — Mogadishu / Remote</p>
+  <h1 class="hero-title">
+    <span class="line"><span>Amina</span></span>
+    <span class="line"><span>Yusuf</span></span>
+  </h1>
+  <p class="hero-sub">
+    Waxaan dhisaa websaydhyo iyo muuqaallo dijitaal ah oo leh dareen, dhaqdhaqaaq (animation), iyo tixraac xirfadeed. Halkan waa shaqadayda iyo qoraalka kuugu saabsan.
+  </p>
+  <div class="scroll-cue">
+    <div class="line-anim"></div>
+    <span>DHAQAAJI HOOS</span>
+  </div>
+</header>
+
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee">
+    <span>Web Design</span>
+    <span>Front-End Development</span>
+    <span>Brand Identity</span>
+    <span>Motion &amp; Animation</span>
+    <span>UI/UX</span>
+    <span>Web Design</span>
+    <span>Front-End Development</span>
+    <span>Brand Identity</span>
+    <span>Motion &amp; Animation</span>
+    <span>UI/UX</span>
+  </div>
+</div>
+
+<section id="about">
+  <div class="section-head reveal">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Ku <em>saabsan</em> aniga</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>
+        Waxaan ahay <strong>horumariye web</strong> oo diiradda saaray dhismaha goobaha dijitaal ah ee leh dhaqdhaqaaq nadiif ah iyo naqshad gaar ah. Shaqadayda waxay ku salaysan tahay isku-darka farsamada iyo naqshadda si loo abuuro waxbaro la xidhiidha.
+      </p>
+      <p>
+        In ka badan <strong>5 sano</strong> oo waayo-aragnimo ah ayaan ku shaqeeyay mashaariic kala duwan — laga bilaabo brand-yo yar yar ilaa platform-yo dhameystiran. Halkan waxaan idiin soo bandhigayaa muunad ka mid ah shaqadayda.
+      </p>
+    </div>
+    <div class="stat-grid reveal">
+      <div class="stat">
+        <span class="num">5<em>+</em></span>
+        <span class="label">Sano oo waayo-aragnimo</span>
+      </div>
+      <div class="stat">
+        <span class="num">32</span>
+        <span class="label">Mashaariic la dhammeeyay</span>
+      </div>
+      <div class="stat">
+        <span class="num">18</span>
+        <span class="label">Macaamiil faraxsan</span>
+      </div>
+      <div class="stat">
+        <span class="num">100<em>%</em></span>
+        <span class="label">Mobile-friendly oo dhaqdhaqaaqa leh</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="section-head reveal">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Shaqooyinka <em>la xulay</em></h2>
+  </div>
+
+  <div class="project reveal">
+    <span class="project-num">01</span>
+    <span class="project-name">Nomad — Travel Booking</span>
+    <span class="project-tags">React · GSAP · UX</span>
+    <span class="project-arrow">→</span>
+  </div>
+  <div class="project reveal">
+    <span class="project-num">02</span>
+    <span class="project-name">Suuq — E-commerce Platform</span>
+    <span class="project-tags">Next.js · Stripe</span>
+    <span class="project-arrow">→</span>
+  </div>
+  <div class="project reveal">
+    <span class="project-num">03</span>
+    <span class="project-name">Aroos — Wedding Brand Identity</span>
+    <span class="project-tags">Branding · Motion</span>
+    <span class="project-arrow">→</span>
+  </div>
+  <div class="project reveal">
+    <span class="project-num">04</span>
+    <span class="project-name">Beerta — Agri Dashboard</span>
+    <span class="project-tags">Data Viz · D3.js</span>
+    <span class="project-arrow">→</span>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="section-head reveal">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Xirfadaha <em>iyo</em> tools</h2>
+  </div>
+  <div class="skills-grid reveal">
+    <div class="skill-card">
+      <span class="icon">Aa</span>
+      <h3>Design</h3>
+      <p>Figma, naqshadeynta UI/UX, design systems, iyo type pairing.</p>
+    </div>
+    <div class="skill-card">
+      <span class="icon">{ }</span>
+      <h3>Development</h3>
+      <p>HTML, CSS, JavaScript, React, animation libraries sida GSAP.</p>
+    </div>
+    <div class="skill-card">
+      <span class="icon">✦</span>
+      <h3>Motion</h3>
+      <p>Scroll animations, micro-interactions, iyo transitions nadiif ah.</p>
+    </div>
+    <div class="skill-card">
+      <span class="icon">◎</span>
+      <h3>Brand</h3>
+      <p>Logo, color systems, iyo aasaaska aragtida muuqaalka.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <div class="reveal">
+    <h2><a href="mailto:hello@aminayusuf.com">Aan wada<br>shaqeyno</a></h2>
+    <p class="contact-sub">hello@aminayusuf.com — laga jawaabi doono 24 saac gudahood</p>
+    <div class="socials">
+      <a href="#">LinkedIn</a>
+      <a href="#">Behance</a>
+      <a href="#">GitHub</a>
+      <a href="#">Instagram</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 Amina Yusuf — Dhisme &amp; Naqshad lagu sameeyay dareen
+</footer>
+
+<script>
+  // Scroll-triggered reveal animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = (i % 4) * 0.08 + 's';
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
